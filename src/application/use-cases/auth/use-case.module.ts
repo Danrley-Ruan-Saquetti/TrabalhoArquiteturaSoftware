@@ -7,14 +7,10 @@ import { InfrastructureRepositoryModule } from '@infrastructure/repositories/rep
 import { ConsumerModule } from '@application/jobs/queues/consumer.module'
 import { AuthUserSignInUseCase } from '@application/use-cases/auth/user/sign-in.use-case'
 import { AuthUserAuthorizationUseCase } from '@application/use-cases/auth/user/authorization.use-case'
-import { AuthBankAccountSignInUseCase } from '@application/use-cases/auth/bank-account/sign-in.use-case'
-import { AuthBankAccountAuthorizationUseCase } from '@application/use-cases/auth/bank-account/authorization.use-case'
 
 const providers: Provider[] = [
   AuthUserSignInUseCase,
   AuthUserAuthorizationUseCase,
-  AuthBankAccountAuthorizationUseCase,
-  AuthBankAccountSignInUseCase,
 ]
 
 @Module({

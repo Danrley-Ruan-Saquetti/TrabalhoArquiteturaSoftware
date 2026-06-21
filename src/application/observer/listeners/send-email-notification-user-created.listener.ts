@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common'
 import { UserCreateEvent } from '@application/observer/events/user/create.event'
 import { EmailNotificationCreateUseCase } from '@application/use-cases/email-notification/create.use-case'
+import { TemplateGeneratorService } from '@domain/adapters/generator/template/template.service'
 import { Listener } from '@domain/adapters/observer/listener'
 import { Templates } from '@domain/templates/templates'
-import { TemplateGeneratorService } from '@domain/adapters/generator/template/template.service'
+import { Injectable } from '@nestjs/common'
 import { env } from '@shared/env'
 
 @Injectable()
@@ -28,7 +28,7 @@ export class SendEmailNotificationUserCreatedListener extends Listener<UserCreat
     await this.emailNotificationCreateUseCase.perform({
       sender: env('APP_MAIL'),
       recipients: [data.user.login],
-      subject: 'Welcome to Liph Bank!',
+      subject: 'Welcome!',
       body: mailContent
     })
   }

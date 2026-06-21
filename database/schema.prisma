@@ -1,6 +1,5 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -23,16 +22,15 @@ enum PeopleGender {
 }
 
 model People {
-  id           Int           @id @default(autoincrement())
-  type         PeopleType    @default(NP)
-  name         String        @db.VarChar(128)
-  cpfCnpj      String        @unique @map("cpf_cnpj") @db.VarChar(14)
-  gender       PeopleGender?
-  dateOfBirth  DateTime?     @map("date_of_birth") @db.Timestamptz(3)
-  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt    DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  User         User[]
-  bankAccounts BankAccount[]
+  id          Int           @id @default(autoincrement())
+  type        PeopleType    @default(NP)
+  name        String        @db.VarChar(128)
+  cpfCnpj     String        @unique @map("cpf_cnpj") @db.VarChar(14)
+  gender      PeopleGender?
+  dateOfBirth DateTime?     @map("date_of_birth") @db.Timestamptz(3)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  User        User[]
 
   @@map("peoples")
 }
@@ -60,74 +58,6 @@ model User {
   @@unique(name: "user_people_type", fields: [peopleId, type], map: "user_people_type")
   @@unique(name: "user_login_type", fields: [login, type], map: "user_login_type")
   @@map("users")
-}
-
-model BankAccount {
-  id                   Int                    @id @default(autoincrement())
-  peopleId             Int                    @map("people_id")
-  code                 String                 @unique @db.VarChar(15)
-  name                 String                 @db.VarChar(45)
-  balance              Int                    @default(0)
-  active               Boolean                @default(true)
-  createdAt            DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt            DateTime               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  people               People                 @relation(fields: [peopleId], references: [id], onDelete: Restrict)
-  FinancialTransaction FinancialTransaction[]
-
-  @@map("bank_accounts")
-}
-
-enum FinancialTransactionType {
-  E // EXPENSE
-  I // INCOME
-
-  @@map("financial_transaction_type")
-}
-
-enum FinancialTransactionFrequency {
-  D // DAILY
-  W // WEEKLY
-  M // MONTHLY
-  Q // QUARTERLY
-  S // SEMIANNUALLY
-  A // ANNUALLY
-
-  @@map("financial_transaction_frequency")
-}
-
-enum FinancialTransactionTypeOccurrence {
-  S // SINGLE
-  P // PROGRAMMATIC
-
-  @@map("financial_transaction_type_occurrence")
-}
-
-enum FinancialTransactionSituation {
-  PE // PENDING
-  CL // COMPLETED
-  LT // LATED
-  CN // CANCELED
-
-  @@map("financial_transaction_situation")
-}
-
-model FinancialTransaction {
-  id                 Int                           @id @default(autoincrement())
-  bankAccountId      Int                           @map("bank_account_id")
-  title              String                        @db.VarChar(55)
-  description        String                        @default("")
-  value              Int
-  type               FinancialTransactionType      @map("type")
-  situation          FinancialTransactionSituation @default(PE) @map("situation")
-  senderRecipient    String                        @map("sender_recipient")
-  expiresIn          DateTime?                     @map("expires_in") @db.Timestamptz(3)
-  dateTimeCompetence DateTime                      @default(now()) @map("date_time_competence") @db.Timestamptz(3)
-  settings           Json                          @default("{\"timesToRepeat\": 0,\"countRepeatedOccurrences\": 0,\"typeOccurrence\": \"S\",\"frequency\": null}")
-  createdAt          DateTime                      @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt          DateTime                      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  bankAccount        BankAccount                   @relation(fields: [bankAccountId], references: [id], onDelete: Restrict)
-
-  @@map("financial_transactions")
 }
 
 enum NotificationSituation {

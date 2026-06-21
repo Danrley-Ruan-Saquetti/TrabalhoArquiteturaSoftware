@@ -1,5 +1,5 @@
 {
-  "name": "liph-bank.server",
+  "name": "sample.server",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -44,7 +44,7 @@
     "bull": "^4.16.5",
     "ci": "^2.3.0",
     "handlebars": "^4.7.8",
-    "liph-bank.server": "file:",
+    "sample.server": "file:",
     "nodemailer": "^6.9.16",
     "p-limit": "^6.2.0",
     "qs": "^6.13.1",

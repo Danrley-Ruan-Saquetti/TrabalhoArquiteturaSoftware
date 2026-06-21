@@ -1,26 +1,57 @@
-name: liph-bank-services
+name: sample-services
 
 services:
-  liph-bank.service.database:
+  sample.service:
+    build: .
+    container_name: sample.service
+    env_file:
+      - .env
+    depends_on:
+      sample.service.database:
+        condition: service_healthy
+      sample.service.redis:
+        condition: service_healthy
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+
+  sample.service.database:
     image: postgres:latest
-    container_name: liph-bank.service.database
+    container_name: sample.service.database
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: liph_bank
+      POSTGRES_DB: sample
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - 5434:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sample"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
 
-  liph-bank.service.redis:
+  sample.service.redis:
     image: redis:latest
-    container_name: liph-bank.service.redis
+    container_name: sample.service.redis
     environment:
       REDIS_PASSWORD: admin
     ports:
       - 6379:6379
+    command: redis-server --requirepass admin
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
 volumes:
   redis_data:
-    driver: local
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge

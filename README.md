@@ -1,10 +1,8 @@
-# LiphBank API
-
-Este é o projeto BackEnd do sistema LiphBank construído para fornecer uma API para comunicação entre as aplicações FrontEnd e BackEnd.
+# Sample Project
 
 ## Sumário
 
-- [LiphBank API](#liphbank-api)
+- [Sample Project](#sample-project)
   - [Sumário](#sumário)
   - [Stack Utilizada](#stack-utilizada)
   - [Estrutura do Projeto](#estrutura-do-projeto)
@@ -15,7 +13,8 @@ Este é o projeto BackEnd do sistema LiphBank construído para fornecer uma API 
 
 <div align="right">
 
-[Back To Top ⬆️](#liphbank-api)
+[Back To Top ⬆️](#sample-project)
+
 </div>
 
 ## Stack Utilizada
@@ -28,7 +27,8 @@ Este é o projeto BackEnd do sistema LiphBank construído para fornecer uma API 
 
 <div align="right">
 
-[Back To Top ⬆️](#liphbank-api)
+[Back To Top ⬆️](#sample-project)
+
 </div>
 
 ## Estrutura do Projeto
@@ -83,7 +83,8 @@ src/
 
 <div align="right">
 
-[Back To Top ⬆️](#liphbank-api)
+[Back To Top ⬆️](#sample-project)
+
 </div>
 
 ## Instruções para Execução
@@ -125,58 +126,26 @@ npm run start:dev
 > ```bash
 > npm run setup
 > ```
+>
 > Este comando irá realizar todos os passos de scripts citados a cima, após isso, basta executar a aplicação seguindo o passo 5.
 
 <div align="right">
 
-[Back To Top ⬆️](#liphbank-api)
+[Back To Top ⬆️](#sample-project)
+
 </div>
 
 ## Requisitos e Funcionalidades da Aplicação
 
 ### Requisitos Funcionais
 
-- [X] O sistema deve manter usuários
-- [X] O sistema deve manter contas bancárias
-- [X] O sistema deve manter transações financeiras
-- [X] O sistema deve permitir a conclusão das transações financeiras
-- [X] O sistema deve permitir o cancelamento das transações financeiras
-- [ ] O sistema deve permitir a reabertura das transações financeiras
-- [ ] O sistema deve atualizar a situação das transações financeiras para Atrasado
-- [ ] O sistema deve duplicar transações financeiras que estejam marcadas para repetir
-- [X] O sistema deve manter o saldo da conta bancário
-- [X] O sistema deve permitir a inativação da conta bancária
-- [ ] O sistema deve permitir a reabertura da conta bancária
+- [x] O sistema deve manter usuários
 - [ ] O sistema deve enviar um email após a criação de uma nova conta de usuário
-- [ ] O sistema deve enviar um email após a criação de uma nova conta bancária
-- [ ] O sistema deve enviar um email após a criação de uma nova transação financeira
 - [ ] O sistema deve enviar um email após a um novo acesso à conta do usuário
-- [ ] O sistema deve enviar um email após a um novo acesso à conta bancária do usuário
-- [ ] O sistema deve enviar um email após a inativação da conta bancária
-- [ ] O sistema deve enviar um email após a reabertura da conta bancária
 
 ### Regras de Negócio
 
-- [X] O cadastro de Usuário deve conter: nome, CPF/CNPJ, login, senha, gênero, data de nascimento, tipo de pessoa
-- [X] O nome do Usuário deve conter entre 3 caracteres 2 45 caracteres
-- [X] A senha do Usuário deve: ter entre 6 a 15 dígitos, possuir letras e números e conter letras maiúsculas e minúsculas
-- [X] Os tipos de Pessoa são: Física e Jurídica
-- [X] O cadastro de Conta Bancária deve conter: nome
-- [X] O nome da Conta Bancária deve conter entre 3 caracteres 2 45 caracteres
-- [X] O cadastro de Transação Financeira deve conter: a Conta Bancária, título, descrição, valor, tipo, remetente/destinatário, data de expiração e data de competência
-- [X] Os tipos da Transação Financeira são: Renda e Despesa
-- [X] As situações da Transação Financeira são: Pendente, Concluído, Atrasado e Cancelado
-- [X] As situações da Transação Financeira consideradas como Fechada são: Concluído e Cancelado
-- [X] Só é possível atualizar as seguintes informações da Transação Financeira: título, descrição, valor, remetente/destinatário, data de expiração e data de competência
-- [X] Só é possível cadastrar Transações Financeiras em Contas Bancárias ativas
-- [X] A situação inicial de toda Transação Financeira é Pendente. Caso a data de expiração seja posterior à data do cadastro, então a situação inicial será Atrasado
-- [X] O Usuário pode atualizar a Transação Financeira apenas se a situação não estiver Fechada
-- [X] O Usuário pode concluir a Transação Financeira apenas se a situação não estiver Fechada
-- [X] O Usuário pode cancelar a Transação Financeira a qualquer momento
-- [ ] Para reabrir uma Transação Financeira a sua situação deve estar Fechada
-- [X] O saldo da Conta Bancária deve ser atualizado quando uma transação for Concluída ou Cancelada
-- [X] Caso o tipo da transação seja Renda, após concluir a transação o valor deve ser somado ao saldo da Conta Bancária
-- [X] Caso o tipo da transação seja Despesa, após concluir a transação o valor deve ser subtraído do saldo da Conta Bancária
-- [X] Caso uma transação que esteja Concluída e que o tipo da transação seja Renda passe a ser Cancelada, o valor deve ser subtraído do saldo da Conta Bancária
-- [X] Caso uma transação que esteja Concluída e que o tipo da transação seja Despesa passe a ser Cancelada, o valor deve ser somado ao saldo da Conta Bancária
-- [ ] Quando a Conta Bancária estiver inativa, não deve ser possível dar manutenção nas Transações Financeiras
+- [x] O cadastro de Usuário deve conter: nome, CPF/CNPJ, login, senha, gênero, data de nascimento, tipo de pessoa
+- [x] O nome do Usuário deve conter entre 3 caracteres 2 45 caracteres
+- [x] A senha do Usuário deve: ter entre 6 a 15 dígitos, possuir letras e números e conter letras maiúsculas e minúsculas
+- [x] Os tipos de Pessoa são: Física e Jurídica

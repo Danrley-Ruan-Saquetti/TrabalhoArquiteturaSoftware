@@ -7,6 +7,12 @@ CREATE TYPE "people_gender" AS ENUM ('M', 'F');
 -- CreateEnum
 CREATE TYPE "user_type" AS ENUM ('C', 'A');
 
+-- CreateEnum
+CREATE TYPE "notification_situation" AS ENUM ('IQ', 'ER', 'SN');
+
+-- CreateEnum
+CREATE TYPE "notification_type" AS ENUM ('P', 'I', 'E');
+
 -- CreateTable
 CREATE TABLE "peoples" (
     "id" SERIAL NOT NULL,
@@ -38,17 +44,38 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "bank_accounts" (
+CREATE TABLE "notifications" (
     "id" SERIAL NOT NULL,
-    "people_id" INTEGER NOT NULL,
-    "code" VARCHAR(15) NOT NULL,
-    "name" VARCHAR(45) NOT NULL,
-    "balance" INTEGER NOT NULL DEFAULT 0,
-    "active" BOOLEAN NOT NULL DEFAULT true,
+    "subject" VARCHAR(45) NOT NULL,
+    "body" TEXT NOT NULL,
+    "type" "notification_type" NOT NULL,
+    "situation" "notification_situation" NOT NULL DEFAULT 'IQ',
+    "send_at" TIMESTAMPTZ(3),
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "bank_accounts_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "notifications_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "emails" (
+    "id" SERIAL NOT NULL,
+    "recipient" VARCHAR(45)[],
+    "sender" VARCHAR(45) NOT NULL,
+
+    CONSTRAINT "emails_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "error_logs" (
+    "id" TEXT NOT NULL,
+    "origin" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "details" JSONB,
+    "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "error_logs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -63,11 +90,9 @@ CREATE UNIQUE INDEX "user_people_type" ON "users"("people_id", "type");
 -- CreateIndex
 CREATE UNIQUE INDEX "user_login_type" ON "users"("login", "type");
 
--- CreateIndex
-CREATE UNIQUE INDEX "bank_accounts_code_key" ON "bank_accounts"("code");
-
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_people_id_fkey" FOREIGN KEY ("people_id") REFERENCES "peoples"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "bank_accounts" ADD CONSTRAINT "bank_accounts_people_id_fkey" FOREIGN KEY ("people_id") REFERENCES "peoples"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "emails" ADD CONSTRAINT "emails_id_fkey" FOREIGN KEY ("id") REFERENCES "notifications"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
