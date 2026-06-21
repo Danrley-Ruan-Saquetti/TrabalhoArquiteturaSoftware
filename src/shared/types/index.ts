@@ -1,0 +1,1 @@
+export type ObjectRequiredProps<T extends object, K extends keyof T> = Required<Pick<T, K>> & Partial<Omit<T, K>>

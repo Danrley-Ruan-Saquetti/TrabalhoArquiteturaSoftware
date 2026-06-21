@@ -1,0 +1,26 @@
+name: liph-bank-services
+
+services:
+  liph-bank.service.database:
+    image: postgres:latest
+    container_name: liph-bank.service.database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: liph_bank
+    ports:
+      - '5433:5432'
+
+  liph-bank.service.redis:
+    image: redis:latest
+    container_name: liph-bank.service.redis
+    environment:
+      REDIS_PASSWORD: admin
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+    driver: local

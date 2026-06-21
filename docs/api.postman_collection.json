@@ -1,0 +1,737 @@
+{
+	"info": {
+		"_postman_id": "7cf96f62-2b03-4a39-8b5f-b1caa4ee416a",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27637177",
+		"_collection_link": "https://warped-shadow-254780.postman.co/workspace/Bank-Account~d112e31d-226b-4bfb-8f44-0c38e401d014/collection/27637177-7cf96f62-2b03-4a39-8b5f-b1caa4ee416a?action=share&source=collection_link&creator=27637177"
+	},
+	"item": [
+		{
+			"name": "/auth",
+			"item": [
+				{
+					"name": "/user",
+					"item": [
+						{
+							"name": "/sign-up",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"dan@gmail.com\",\r\n    \"password\": \"Dan!@#123\",\r\n    \"name\": \"Dan Ruan\",\r\n    \"cpfCnpj\": \"102-547-109-13\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/user/sign-up",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"sign-up"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/sign-in",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200) {\r",
+											"    const { value } = pm.response.json()\r",
+											"\r",
+											"    pm.environment.set(\"token\", value.token);\r",
+											"    pm.globals.set(\"token\", value.token);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"dan@gmail.com\",\r\n    \"password\": \"Dan!@#123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/user/sign-in",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/bank-account",
+					"item": [
+						{
+							"name": "/sign-in",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200) {\r",
+											"    const { value } = pm.response.json()\r",
+											"\r",
+											"    pm.environment.set(\"tokenBankAccount\", value.token);\r",
+											"    pm.globals.set(\"tokenBankAccount\", value.token);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"BAK-1NXX3D668IW\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/bank-account/sign-in",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"bank-account",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/bank-accounts",
+			"item": [
+				{
+					"name": "/financial-transactions",
+					"item": [
+						{
+							"name": "/:id",
+							"item": [
+								{
+									"name": "/cancel",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "AuthorizationBankAccount",
+												"value": "Bearer {{tokenBankAccount}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/bank-accounts/financial-transactions/2/cancel",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"financial-transactions",
+												"2",
+												"cancel"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "AuthorizationBankAccount",
+												"value": "Bearer {{tokenBankAccount}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": 1500.50\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/bank-accounts/financial-transactions/4/update",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"financial-transactions",
+												"4",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/conclude",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "AuthorizationBankAccount",
+												"value": "Bearer {{tokenBankAccount}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/bank-accounts/financial-transactions/6/conclude",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"financial-transactions",
+												"6",
+												"conclude"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "AuthorizationBankAccount",
+												"value": "Bearer {{tokenBankAccount}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/bank-accounts/financial-transactions/5/delete",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"bank-accounts",
+												"financial-transactions",
+												"5",
+												"delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "AuthorizationBankAccount",
+										"value": "Bearer {{tokenBankAccount}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Trasação de Teste\",\r\n    \"value\": 100,\r\n    \"type\": \"E\",\r\n    \"senderRecipient\": \"Dan Ruan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/bank-accounts/financial-transactions/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"bank-accounts",
+										"financial-transactions",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "AuthorizationBankAccount",
+										"value": "Bearer {{tokenBankAccount}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/bank-accounts/financial-transactions?situation[notIn]=CL&situation[notIn]=CN",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"bank-accounts",
+										"financial-transactions"
+									],
+									"query": [
+										{
+											"key": "situation[notIn]",
+											"value": "CL"
+										},
+										{
+											"key": "situation[notIn]",
+											"value": "CN"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/:id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "AuthorizationBankAccount",
+										"value": "Bearer {{tokenBankAccount}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/bank-accounts/financial-transactions/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"bank-accounts",
+										"financial-transactions",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"BA - Teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/bank-accounts/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bank-accounts",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "AuthorizationBankAccount",
+								"value": "Bearer {{tokenBankAccount}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/bank-accounts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bank-accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/inactivate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "AuthorizationBankAccount",
+								"value": "Bearer {{tokenBankAccount}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"BA - Profissional\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/bank-accounts/inactivate",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bank-accounts",
+								"inactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "AuthorizationBankAccount",
+								"value": "Bearer {{tokenBankAccount}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"BA - Pessoal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/bank-accounts/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bank-accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/current",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "AuthorizationBankAccount",
+								"value": "Bearer {{tokenBankAccount}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/bank-accounts/current",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"bank-accounts",
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"dan@gmail.com\",\r\n    \"password\": \"Dan!@#123\",\r\n    \"cpfCnpj\": \"102-547-109-13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/current",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/current",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"current"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/peoples",
+			"item": [
+				{
+					"name": "/update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Dan Ruan\",\r\n    \"dateOfBirth\": \"2004-05-28\",\r\n    \"gender\": \"M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/peoples/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"peoples",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
